@@ -11,7 +11,7 @@ class RubyOdbc < Formula
   def install
     # extconf.rb assumes it will install ruby-odbc within a folder in your
     # current ruby installation.
-    system "ruby", "-Cext", "extconf.rb", "--enable-dlopen", "--with-odbc-dir=#{HOMEBREW_PREFIX}/lib"
+    system "ruby", "-Cext", "extconf.rb", "--disable-dlopen", "--with-odbc-dir=#{HOMEBREW_PREFIX}/lib"
 
     # The following modifications to the Makefile ensure that it is installed
     # within your homebrew directories.
@@ -19,7 +19,7 @@ class RubyOdbc < Formula
       s.change_make_var! "prefix", prefix
       s.change_make_var! "sitearchdir", lib
 
-      if snow_leopard_64?
+      if snow_leopard_64? && false
         # ruby-odbc still chooses iODBC over unixODBC (even with --with-odbc-dir)
         # apparently because unixODBC is compiled for only x86_64 and ruby-odbc
         # and iODBC are both i386 and x86_64. The solution (which works for me on Snow Leopard)
